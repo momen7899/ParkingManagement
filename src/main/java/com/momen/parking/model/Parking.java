@@ -11,14 +11,16 @@ import java.util.Date;
 @Data
 public class Parking extends BaseEntity {
 
+    @Temporal(TemporalType.TIMESTAMP)
     private Date entryTime;
+    @Temporal(TemporalType.TIMESTAMP)
     private Date exitTime;
 
     @ManyToOne
     @JoinColumn(name = "vehicle_id")
     private Vehicle vehicle;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "price_id")
     private PriceRate priceRate;
 

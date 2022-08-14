@@ -1,9 +1,9 @@
 package com.momen.parking.controller;
 
+import com.momen.parking.common.PagingData;
 import com.momen.parking.dto.request.ParkingRequestDTO;
 import com.momen.parking.dto.request.VehicleRequestDTO;
 import com.momen.parking.dto.response.ParkingResponseDTO;
-import com.momen.parking.dto.response.VehicleResponseDTO;
 import com.momen.parking.mapper.ParkingMapper;
 import com.momen.parking.mapper.VehicleMapper;
 import com.momen.parking.model.Parking;
@@ -33,10 +33,10 @@ public class ParkingController {
         return mapper.toParkingResponseDto(saved);
     }
 
-    @PutMapping
-    public ParkingResponseDTO updateParking(@RequestBody ParkingRequestDTO parkingRequestDTO) {
+    @PutMapping("/leave")
+    public ParkingResponseDTO leaveParking(@RequestBody ParkingRequestDTO parkingRequestDTO) {
         Parking parking = mapper.toParking(parkingRequestDTO);
-        Parking saved = service.updateParking(parking);
+        Parking saved = service.leaveParking(parking);
         return mapper.toParkingResponseDto(saved);
     }
 
@@ -59,33 +59,18 @@ public class ParkingController {
     }
 
     @GetMapping("/paging/")
-    public List<ParkingResponseDTO> paging(
+    public ResponseEntity<PagingData<ParkingResponseDTO>> paging(
             @RequestParam(name = "page") Integer page
             , @RequestParam(name = "size", defaultValue = "10")
                     Integer size) {
         Page<Parking> saved = service.paging(page, size);
-        return mapper.toParkingResponseDTOList(saved.getContent());
+        PagingData<ParkingResponseDTO> pagingData = new PagingData<>(saved.getTotalPages(), page, mapper.toParkingResponseDTOList(saved.getContent()));
+
+        return ResponseEntity.ok(pagingData);
     }
 
-    @PostMapping("/registration/{id}")
-    public ParkingResponseDTO vehicleRegistration(@PathVariable Long id) {
-        Parking saved = service.vehicleRegistration(id);
-        return mapper.toParkingResponseDto(saved);
-    }
 
-    @PostMapping("/leave/{id}")
-    public ParkingResponseDTO leaveVehicle(@PathVariable Long id) {
-        Parking saved = service.leaveVehicle(id);
-        return mapper.toParkingResponseDto(saved);
-    }
-
-    @PostMapping("/calculate/{id}")
-    public ParkingResponseDTO calculatePrice(@PathVariable Long id) {
-        Parking saved = service.calculatePrice(id);
-        return mapper.toParkingResponseDto(saved);
-    }
-
-    @PostMapping("/confirmPayment/{id}")
+    @PutMapping("/confirmPayment/{id}")
     public ParkingResponseDTO confirmPayment(@PathVariable Long id) {
         Parking saved = service.confirmPayment(id);
         return mapper.toParkingResponseDto(saved);
@@ -99,14 +84,16 @@ public class ParkingController {
     }
 
     @GetMapping("/vehicle/paging/")
-    public List<ParkingResponseDTO> paging(
+    public ResponseEntity<PagingData<ParkingResponseDTO>> paging(
             @RequestBody VehicleRequestDTO vehicleRequestDTO,
             @RequestParam(name = "page") Integer page
             , @RequestParam(name = "size", defaultValue = "10") Integer size) {
 
         Vehicle vehicle = vehicleMapper.toVehicle(vehicleRequestDTO);
         Page<Parking> saved = service.pagingVehicleTrafficReport(page, size, vehicle);
-        return mapper.toParkingResponseDTOList(saved.getContent());
+        PagingData<ParkingResponseDTO> pagingData = new PagingData<>(saved.getTotalPages(), page, mapper.toParkingResponseDTOList(saved.getContent()));
+
+        return ResponseEntity.ok(pagingData);
     }
 
 

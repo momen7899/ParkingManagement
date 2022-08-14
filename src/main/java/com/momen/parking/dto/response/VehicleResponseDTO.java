@@ -5,10 +5,13 @@ import com.momen.parking.model.VehicleType;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+
 @Data
 public class VehicleResponseDTO extends BaseDTO {
     @ApiModelProperty(required = true, hidden = false)
-    private VehicleType carType;
+    private VehicleType vehicleType;
 
     @ApiModelProperty(required = true, hidden = false)
     private String plaque;

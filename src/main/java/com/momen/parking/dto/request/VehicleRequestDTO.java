@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 public class VehicleRequestDTO extends BaseDTO {
     @ApiModelProperty(required = true, hidden = false)
-    private VehicleType carType;
+    private VehicleType vehicleType;
 
     @ApiModelProperty(required = true, hidden = false)
     private String plaque;

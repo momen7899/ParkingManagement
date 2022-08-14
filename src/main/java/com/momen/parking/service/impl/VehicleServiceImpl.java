@@ -27,7 +27,7 @@ public class VehicleServiceImpl implements VehicleService {
     @Override
     public Vehicle updateVehicle(Vehicle vehicle) {
         Vehicle savedVehicle = getVehicle(vehicle.getId());
-        savedVehicle.setCarType(vehicle.getCarType());
+        savedVehicle.setVehicleType(vehicle.getVehicleType());
         savedVehicle.setPlaque(vehicle.getPlaque());
         return repository.save(savedVehicle);
     }

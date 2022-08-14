@@ -10,7 +10,7 @@ public interface ParkingService {
 
     Parking addParking(Parking parking);
 
-    Parking updateParking(Parking parking);
+    Parking leaveParking(Parking parking);
 
     void deleteParking(Long parkingId);
 
@@ -19,12 +19,6 @@ public interface ParkingService {
     Page<Parking> paging(Integer page, Integer size);
 
     List<Parking> getAll();
-
-    Parking vehicleRegistration(Long parkingId);
-
-    Parking leaveVehicle(Long parkingId);
-
-    Parking calculatePrice(Long parkingId);
 
     Parking confirmPayment(Long parkingId);
 

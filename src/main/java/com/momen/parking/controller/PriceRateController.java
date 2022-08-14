@@ -1,7 +1,9 @@
 package com.momen.parking.controller;
 
+import com.momen.parking.common.PagingData;
 import com.momen.parking.dto.request.PriceRateRequestDTO;
 import com.momen.parking.dto.response.PriceRateResponseDTO;
+import com.momen.parking.dto.response.VehicleResponseDTO;
 import com.momen.parking.mapper.PriceRateMapper;
 import com.momen.parking.model.PriceRate;
 import com.momen.parking.service.PriceRateService;
@@ -53,10 +55,13 @@ public class PriceRateController {
     }
 
     @GetMapping("/paging/")
-    public List<PriceRateResponseDTO> paging(
+    public ResponseEntity<PagingData<PriceRateResponseDTO>> paging(
             @RequestParam(name = "page") Integer page
             , @RequestParam(name = "size", defaultValue = "10") Integer size) {
         Page<PriceRate> saved = service.paging(page, size);
-        return mapper.toPriceRateResponseDTOList(saved.getContent());
+
+        PagingData<PriceRateResponseDTO> pagingData = new PagingData<>(saved.getTotalPages(), page, mapper.toPriceRateResponseDTOList(saved.getContent()));
+
+        return ResponseEntity.ok(pagingData);
     }
 }

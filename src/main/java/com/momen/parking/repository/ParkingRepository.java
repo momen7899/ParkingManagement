@@ -8,7 +8,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import java.util.List;
 
 public interface ParkingRepository extends PagingAndSortingRepository<Parking, Long> {
-    Page<Parking> findAllReportForVehicle(Long vehicleId, Pageable pageable);
+    Page<Parking> findAllByVehicle_Id(Long vehicleId, Pageable pageable);
 
-    List<Parking> findAllReportForVehicle(Long vehicleId);
+    List<Parking> findAllByVehicle_Id(Long vehicleId);
 }

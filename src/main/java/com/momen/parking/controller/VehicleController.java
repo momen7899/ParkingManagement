@@ -1,5 +1,6 @@
 package com.momen.parking.controller;
 
+import com.momen.parking.common.PagingData;
 import com.momen.parking.dto.request.VehicleRequestDTO;
 import com.momen.parking.dto.response.VehicleResponseDTO;
 import com.momen.parking.mapper.VehicleMapper;
@@ -53,12 +54,15 @@ public class VehicleController {
     }
 
     @GetMapping("/paging/")
-    public List<VehicleResponseDTO> paging(
+    public ResponseEntity<PagingData<VehicleResponseDTO>> paging(
             @RequestParam(name = "page") Integer page
             , @RequestParam(name = "size", defaultValue = "10")
                     Integer size) {
         Page<Vehicle> saved = service.paging(page, size);
-        return mapper.toVehicleResponseDTOList(saved.getContent());
+
+        PagingData<VehicleResponseDTO> pagingData = new PagingData<>(saved.getTotalPages(), page, mapper.toVehicleResponseDTOList(saved.getContent()));
+
+        return ResponseEntity.ok(pagingData);
     }
 
 }
